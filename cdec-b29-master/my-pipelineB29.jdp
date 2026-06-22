@@ -1,23 +1,31 @@
 pipeline {
     agent any
+
     stages {
-        stage ('PULL STAGE') {
+
+        stage('PULL STAGE') {
             steps {
                 git 'https://github.com/nitindrathod4-alt/my-new-folder.git'
                 echo 'Pull Success'
             }
         }
-        stage ('BUILD STAGE') {
+
+        stage('BUILD STAGE') {
             steps {
-                sh 'mvn clean package -DskipTests'
+                dir('cdec-b29-master/backend') {
+                    sh 'mvn clean package -DskipTests'
+                }
+                echo 'Build Success'
             }
         }
-        stage ('TEST STAGE') {
+
+        stage('TEST STAGE') {
             steps {
                 echo 'Test Success'
             }
         }
-        stage ('DEPLOY STAGE') {
+
+        stage('DEPLOY STAGE') {
             steps {
                 echo 'Deploy Success'
             }
