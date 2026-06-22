@@ -1,16 +1,41 @@
-stage('BUILD STAGE') {
-    steps {
-        dir('cdec-b29-master/backend') {
-            sh '''
-                export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-                export PATH=$JAVA_HOME/bin:$PATH
+pipeline {
+    agent any
 
-                java -version
-                javac -version
+    stages {
 
-                mvn clean package -DskipTests
-            '''
+        stage('PULL STAGE') {
+            steps {
+                git 'https://github.com/nitindrathod4-alt/my-new-folder.git'
+                echo 'Pull Success'
+            }
         }
-        echo 'Build Success'
+
+        stage('BUILD STAGE') {
+            steps {
+                dir('cdec-b29-master/backend') {
+                    sh '''
+                        export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+                        export PATH=$JAVA_HOME/bin:$PATH
+
+                        java -version
+                        javac -version
+
+                        mvn clean package -DskipTests
+                    '''
+                }
+            }
+        }
+
+        stage('TEST STAGE') {
+            steps {
+                echo 'Test Success'
+            }
+        }
+
+        stage('DEPLOY STAGE') {
+            steps {
+                echo 'Deploy Success'
+            }
+        }
     }
 }
