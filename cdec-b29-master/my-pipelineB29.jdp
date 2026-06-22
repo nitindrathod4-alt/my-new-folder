@@ -1,66 +1,31 @@
 pipeline {
     agent any
-
     stages {
-
-        stage('Checkout') {
+        stage ('PULL STAGE') {
             steps {
-                git branch: 'master',
-                url: 'https://github.com/nitindrathod4-alt/my-new-folder.git'
+                git 'https://github.com/nitindrathod4-alt/my-new-folder.git'
+                echo 'Pull Success'
             }
         }
 
-        stage('Permission') {
-            steps {
-                sh 'chmod -R 755 .'
-            }
-        }
-
-        stage('Verify Tools') {
-            steps {
-                sh 'java -version'
-                sh 'mvn -version'
-            }
-        }
-
-        stage('Clean') {
-            steps {
-                sh 'mvn clean'
-            }
-        }
-
-        stage('Build') {
-            steps {
-                sh 'mvn compile'
-            }
-        }
-
-        stage('Package') {
+        stage ('BUILD STAGE') {
             steps {
                 sh 'mvn clean package -DskipTests'
+                echo 'Build Success'
             }
         }
 
-        stage('Archive Artifact') {
+        stage ('TEST STAGE') {
             steps {
-                archiveArtifacts artifacts: 'target/*.jar'
+                echo 'Test Success'
             }
         }
 
-        stage('Deploy') {
+        stage ('DEPLOY STAGE') {
             steps {
                 echo 'Deploy Success'
             }
         }
     }
-
-    post {
-        success {
-            echo 'Pipeline Success'
-        }
-
-        failure {
-            echo 'Pipeline Failed'
-        }
-    }
+}
 }
