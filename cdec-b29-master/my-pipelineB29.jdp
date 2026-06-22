@@ -1,26 +1,66 @@
 pipeline {
     agent any
+
     stages {
-        stage ('PULL STAGE') {
+
+        stage('Checkout') {
             steps {
-	        git 'https://github.com/chetanraval07/cdec-b29.git'
-                echo 'Pull Success'
+                git branch: 'master',
+                url: 'https://github.com/nitindrathod4-alt/my-new-folder.git'
             }
         }
-        stage ('BUILD STAGE') {
+
+        stage('Permission') {
             steps {
-                echo 'Build Success'
+                sh 'chmod -R 755 .'
             }
         }
-        stage ('TEST STAGE') {
+
+        stage('Verify Tools') {
             steps {
-                echo 'Test Success'
+                sh 'java -version'
+                sh 'mvn -version'
             }
         }
-        stage ('DEPLOY STAGE') {
+
+        stage('Clean') {
+            steps {
+                sh 'mvn clean'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn compile'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                sh 'mvn package -DskipTests'
+            }
+        }
+
+        stage('Archive Artifact') {
+            steps {
+                archiveArtifacts artifacts: 'target/*.jar'
+            }
+        }
+
+        stage('Deploy') {
             steps {
                 echo 'Deploy Success'
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline Success'
+        }
+
+        failure {
+            echo 'Pipeline Failed'
         }
     }
 }
