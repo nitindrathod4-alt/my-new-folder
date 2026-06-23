@@ -24,23 +24,17 @@ pipeline {
                 echo 'BUILD SUCCESS'
             }
         }
+
+        stage('TEST STAGE') {
             steps {
-                echo 'build success'
-                
+                echo 'TESTING SUCCESS'
             }
         }
-        stage('test stage') {
-          steps {
-              echo 'testing success'
-              
-          }
-        }
-        
-        stage('deploy stage') {
+
+        stage('DEPLOY STAGE') {
             steps {
-                echo 'deploying success'
+                echo 'DEPLOYING SUCCESS'
             }
         }
     }
 }
-
