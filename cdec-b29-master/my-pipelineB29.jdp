@@ -1,41 +1,46 @@
 pipeline {
     agent any
 
+    environment {
+        JAVA_HOME = "/usr/lib/jvm/java-17-openjdk-amd64"
+        PATH = "${JAVA_HOME}/bin:${env.PATH}"
+    }
+
     stages {
 
         stage('PULL STAGE') {
             steps {
                 git 'https://github.com/nitindrathod4-alt/my-new-folder.git'
-                echo 'Pull Success'
+                echo 'PULL SUCCESS'
             }
         }
 
         stage('BUILD STAGE') {
             steps {
-                dir('cdec-b29-master/backend') {
-                    sh '''
-                        export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-                        export PATH=$JAVA_HOME/bin:$PATH
-
-                        java -version
-                        javac -version
-
-                        mvn clean package -DskipTests
-                    '''
+                dir('backend') {
+                    sh 'java -version'
+                    sh 'mvn clean package -DskipTests'
                 }
+                echo 'BUILD SUCCESS'
             }
         }
-
-        stage('TEST STAGE') {
             steps {
-                echo 'Test Success'
+                echo 'build success'
+                
             }
         }
-
-        stage('DEPLOY STAGE') {
+        stage('test stage') {
+          steps {
+              echo 'testing success'
+              
+          }
+        }
+        
+        stage('deploy stage') {
             steps {
-                echo 'Deploy Success'
+                echo 'deploying success'
             }
         }
     }
 }
+
