@@ -29,7 +29,7 @@ pipeline {
 
         stage('TEST STAGE') {
             steps {
-                withSonarQubeEnv('sonar') {
+                withSonarQubeEnv('sonarqube') {
                     dir('cdec-b29-master/backend') {
                         sh '''
                             mvn sonar:sonar \
@@ -38,7 +38,6 @@ pipeline {
                         '''
                     }
                 }
-
                 echo 'TEST SUCCESS'
             }
         }
