@@ -38,7 +38,16 @@ pipeline {
                         '''
                     }
                 }
-                echo 'TEST SUCCESS'
+                echo 'SONAR SCAN SUCCESS'
+            }
+        }
+
+        stage('QUALITY GATE') {
+            steps {
+                timeout(time: 5, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+                echo 'QUALITY GATE PASSED'
             }
         }
 
