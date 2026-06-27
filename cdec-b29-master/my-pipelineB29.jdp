@@ -29,15 +29,17 @@ pipeline {
 
         stage('TEST STAGE') {
             steps {
-withSonarQubeEnv('sonar') {
-dir('backend') {
-sh ''' mvn sonar:sonar \\
-  -Dsonar.projectKey=cloudblitz \\
-  -Dsonar.projectName=\'cloudblitz\' \\
-  '''
-}
-}
-              echo 'TEST SUCCESS'
+                withSonarQubeEnv('sonar') {
+                    dir('cdec-b29-master/backend') {
+                        sh '''
+                            mvn sonar:sonar \
+                            -Dsonar.projectKey=cloudblitz \
+                            -Dsonar.projectName=cloudblitz
+                        '''
+                    }
+                }
+
+                echo 'TEST SUCCESS'
             }
         }
 
