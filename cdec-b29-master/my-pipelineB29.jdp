@@ -29,7 +29,14 @@ pipeline {
 
         stage('TEST STAGE') {
             steps {
-                echo 'TEST SUCCESS'
+dir('backend') {
+sh ''' mvn sonar:sonar \\
+  -Dsonar.projectKey=cloudblitz \\
+  -Dsonar.projectName=\'cloudblitz\' \\
+  -Dsonar.host.url=http://15.207.112.116:9000 \\
+  -Dsonar.token=sqp_80347693fb5576473c5d892119c97cc1973073e5'''
+}
+              echo 'TEST SUCCESS'
             }
         }
 
